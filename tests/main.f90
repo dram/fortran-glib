@@ -13,7 +13,7 @@ program main
     character(1), pointer :: name
     type(c_ptr) dir, str
 
-    path = 'sources' // char(0)
+    allocate (path, source='sources' // char(0))
     dir = g_dir_open(c_loc(path), 0, c_null_ptr)
     str = g_dir_read_name(dir)
     call c_f_pointer(str, name)
