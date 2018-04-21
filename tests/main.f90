@@ -38,9 +38,9 @@ contains
     type(c_ptr), target :: pointers (size(arguments) + 2)
     type(string), target :: buffer (size(arguments) + 1)
 
-    buffer(1) = string(command // char(0))
+    buffer(1) = cstring(command)
     do i = 1, size(arguments)
-       buffer(i + 1) = string(arguments(i) % value // char(0))
+       buffer(i + 1) = cstring(arguments(i) % value)
     end do
 
     do i = 1, size(arguments) + 1
@@ -53,5 +53,11 @@ contains
          c_null_ptr, c_null_ptr, &
          c_null_ptr, c_null_ptr, c_null_ptr, c_null_ptr)
   end subroutine run_process
+
+  function cstring(s)
+    character(*), intent(in) :: s
+    type(string) :: cstring
+    cstring = string(s // char(0))
+  end function cstring
 
 end program main
