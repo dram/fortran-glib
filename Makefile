@@ -1,6 +1,6 @@
 PROGRAM = tests/run-tests
 MODULES_DIR = modules
-OBJECT_FILES = sources/glib.o tests/main.o
+OBJECT_FILES = sources/glib.o sources/glib_aux.o tests/main.o
 CONSTANTS_FILE = sources/constants.f90
 CONSTANTS_GENERATOR = sources/constants
 
