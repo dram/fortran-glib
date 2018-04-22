@@ -9,7 +9,16 @@ module glib_aux
   public &
        glib_aux_get_file_contents, &
        glib_aux_open_directory, &
+       glib_aux_read_directory_entry_name, &
        glib_aux_test_file
+
+  interface
+     pure function strlen(s) bind(c)
+       use iso_c_binding, only: c_size_t, c_ptr
+       type(c_ptr), value :: s
+       integer(c_size_t) strlen
+     end function strlen
+  end interface
 
 contains
 
@@ -45,6 +54,26 @@ contains
     buffer = path // char(0)
     glib_aux_open_directory = g_dir_open(c_loc(buffer), 0, c_null_ptr)
   end function glib_aux_open_directory
+
+  function glib_aux_read_directory_entry_name(directory)
+    type(c_ptr), value :: directory
+    character(:), allocatable :: glib_aux_read_directory_entry_name
+
+    type(c_ptr) cptr
+
+    cptr = g_dir_read_name(directory)
+
+    !! TODO: handle error properly
+    if (c_associated(cptr)) then
+       block
+         character(strlen(cptr)), pointer :: fptr
+         call c_f_pointer(cptr, fptr)
+         glib_aux_read_directory_entry_name = fptr
+       end block
+    else
+       glib_aux_read_directory_entry_name = ''
+    end if
+  end function glib_aux_read_directory_entry_name
 
   function glib_aux_test_file(filename, test)
     character(*), intent(in) :: filename
