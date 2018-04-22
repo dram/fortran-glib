@@ -8,6 +8,7 @@ module glib_aux
 
   public &
        glib_aux_get_file_contents, &
+       glib_aux_open_directory, &
        glib_aux_test_file
 
 contains
@@ -34,6 +35,16 @@ contains
 
     call g_free(cptr)
   end subroutine glib_aux_get_file_contents
+
+  function glib_aux_open_directory(path)
+    character(*), intent(in) :: path
+    type(c_ptr) :: glib_aux_open_directory
+
+    character(:), allocatable, target :: buffer
+
+    buffer = path // char(0)
+    glib_aux_open_directory = g_dir_open(c_loc(buffer), 0, c_null_ptr)
+  end function glib_aux_open_directory
 
   function glib_aux_test_file(filename, test)
     character(*), intent(in) :: filename
