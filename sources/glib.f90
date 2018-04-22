@@ -42,6 +42,13 @@ module glib
        logical(c_bool) g_file_set_contents
      end function g_file_set_contents
 
+     function g_file_test(filename, test) bind(c)
+       use iso_c_binding, only: c_bool, c_int, c_ptr
+       type(c_ptr), value :: filename
+       integer(c_int), value :: test
+       logical(c_bool) g_file_test
+     end function g_file_test
+
      function g_mkdir_with_parents(pathname, mode) bind(c)
        use iso_c_binding, only: c_int, c_ptr
        type(c_ptr), value :: pathname
