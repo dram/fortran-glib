@@ -49,6 +49,11 @@ module glib
        logical(c_bool) g_file_test
      end function g_file_test
 
+     subroutine g_free(mem) bind(c)
+       use iso_c_binding, only: c_ptr
+       type(c_ptr), value :: mem
+     end subroutine g_free
+
      function g_mkdir_with_parents(pathname, mode) bind(c)
        use iso_c_binding, only: c_int, c_ptr
        type(c_ptr), value :: pathname
