@@ -8,6 +8,8 @@ module glib_aux
 
   public &
        glib_aux_get_file_contents, &
+       glib_aux_make_directory_with_parents, &
+       glib_aux_make_temporary_directory, &
        glib_aux_open_directory, &
        glib_aux_read_directory_entry_name, &
        glib_aux_test_file
@@ -44,6 +46,32 @@ contains
 
     call g_free(cptr)
   end subroutine glib_aux_get_file_contents
+
+  function glib_aux_make_directory_with_parents(path, mode)
+    character(*), intent(in) :: path
+    integer, value :: mode
+    logical glib_aux_make_directory_with_parents
+
+    character(:), allocatable, target :: buffer
+
+    buffer = path // char(0)
+    glib_aux_make_directory_with_parents = &
+         g_mkdir_with_parents(c_loc(buffer), mode) == 0
+  end function glib_aux_make_directory_with_parents
+
+  function glib_aux_make_temporary_directory(tmpl)
+    character(*), intent(in) :: tmpl
+    character(:), allocatable :: glib_aux_make_temporary_directory
+
+    character(:), allocatable, target :: buffer
+    type(c_ptr) p
+
+    buffer = tmpl // char(0)
+
+    p = g_mkdtemp(c_loc(buffer))
+
+    glib_aux_make_temporary_directory = buffer(1 : len(tmpl))
+  end function glib_aux_make_temporary_directory
 
   function glib_aux_open_directory(path)
     character(*), intent(in) :: path
