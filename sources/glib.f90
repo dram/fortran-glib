@@ -6,6 +6,12 @@ module glib
   include "constants.f90"
 
   interface
+     function g_bytes_get_size(bytes) bind(c)
+       use iso_c_binding, only: c_ptr, c_size_t
+       type(c_ptr), value :: bytes
+       integer(c_size_t) g_bytes_get_size
+     end function g_bytes_get_size
+
      subroutine g_dir_close(dir) bind(c)
        use iso_c_binding, only: c_ptr
        type(c_ptr), value :: dir
