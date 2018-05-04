@@ -8,11 +8,8 @@ module glib_aux
 
   public &
        glib_aux_get_file_contents, &
-       glib_aux_make_directory_with_parents, &
        glib_aux_make_temporary_directory, &
-       glib_aux_open_directory, &
-       glib_aux_read_directory_entry_name, &
-       glib_aux_test_file
+       glib_aux_read_directory_entry_name
 
   interface
      pure function strlen(s) bind(c)
@@ -47,18 +44,6 @@ contains
     call g_free(cptr)
   end subroutine glib_aux_get_file_contents
 
-  function glib_aux_make_directory_with_parents(path, mode)
-    character(*), intent(in) :: path
-    integer, value :: mode
-    logical glib_aux_make_directory_with_parents
-
-    character(:), allocatable, target :: buffer
-
-    buffer = path // char(0)
-    glib_aux_make_directory_with_parents = &
-         g_mkdir_with_parents(c_loc(buffer), mode) == 0
-  end function glib_aux_make_directory_with_parents
-
   function glib_aux_make_temporary_directory(tmpl)
     character(*), intent(in) :: tmpl
     character(:), allocatable :: glib_aux_make_temporary_directory
@@ -72,16 +57,6 @@ contains
 
     glib_aux_make_temporary_directory = buffer(1 : len(tmpl))
   end function glib_aux_make_temporary_directory
-
-  function glib_aux_open_directory(path)
-    character(*), intent(in) :: path
-    type(c_ptr) :: glib_aux_open_directory
-
-    character(:), allocatable, target :: buffer
-
-    buffer = path // char(0)
-    glib_aux_open_directory = g_dir_open(c_loc(buffer), 0, c_null_ptr)
-  end function glib_aux_open_directory
 
   function glib_aux_read_directory_entry_name(directory)
     type(c_ptr), value :: directory
@@ -102,16 +77,5 @@ contains
        glib_aux_read_directory_entry_name = ''
     end if
   end function glib_aux_read_directory_entry_name
-
-  function glib_aux_test_file(filename, test)
-    character(*), intent(in) :: filename
-    integer, value :: test
-    logical glib_aux_test_file
-
-    character(:), allocatable, target :: buffer
-
-    buffer = trim(filename) // char(0)
-    glib_aux_test_file = g_file_test(c_loc(buffer), test)
-  end function glib_aux_test_file
 
 end module glib_aux
