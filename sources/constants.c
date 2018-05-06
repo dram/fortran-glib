@@ -19,6 +19,9 @@ int main(void)
 	       "g_spawn_default = %d\n", G_SPAWN_DEFAULT);
 	printf(INT_PARAMETER
 	       "g_spawn_search_path = %d\n", G_SPAWN_SEARCH_PATH);
+	printf(INT_PARAMETER
+	       "g_spawn_stdout_to_dev_null = %d\n",
+	       G_SPAWN_STDOUT_TO_DEV_NULL);
 
 	return 0;
 }
