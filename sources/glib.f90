@@ -1,7 +1,9 @@
 module glib
-  use iso_c_binding
+  use iso_c_binding, only: c_int
 
   implicit none
+
+  private c_int
 
   include "constants.f90"
 
@@ -72,6 +74,24 @@ module glib
        type(c_ptr), value :: templ
        type(c_ptr) g_mkdtemp
      end function g_mkdtemp
+
+     subroutine g_spawn_close_pid(pid) bind(c)
+       use iso_c_binding, only: c_int
+       integer(c_int), value :: pid
+     end subroutine g_spawn_close_pid
+
+     function g_spawn_async_with_pipes( &
+          working_directory, argv, envp, flags, &
+          child_setup, user_data, child_pid, &
+          standard_input, standard_output, standard_error, error) bind(c)
+       use iso_c_binding, only: c_bool, c_int, c_ptr
+       type(c_ptr), value :: &
+            working_directory, argv, envp, &
+            child_setup, user_data, child_pid, &
+            standard_input, standard_output, standard_error, error
+       integer(c_int), value :: flags
+       logical(c_bool) g_spawn_async_with_pipes
+     end function g_spawn_async_with_pipes
 
      function g_spawn_sync( &
           working_directory, argv, envp, flags, &

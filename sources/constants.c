@@ -18,6 +18,8 @@ int main(void)
 	printf(INT_PARAMETER
 	       "g_spawn_default = %d\n", G_SPAWN_DEFAULT);
 	printf(INT_PARAMETER
+	       "g_spawn_do_not_reap_child = %d\n", G_SPAWN_DO_NOT_REAP_CHILD);
+	printf(INT_PARAMETER
 	       "g_spawn_search_path = %d\n", G_SPAWN_SEARCH_PATH);
 	printf(INT_PARAMETER
 	       "g_spawn_stdout_to_dev_null = %d\n",
