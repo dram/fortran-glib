@@ -7,9 +7,7 @@ module glib_aux
   private
 
   public &
-       glib_aux_get_file_contents, &
-       glib_aux_make_temporary_directory, &
-       glib_aux_read_directory_entry_name
+       glib_aux_get_file_contents
 
   interface
      pure function strlen(s) bind(c)
@@ -43,39 +41,5 @@ contains
 
     call g_free(cptr)
   end subroutine glib_aux_get_file_contents
-
-  function glib_aux_make_temporary_directory(tmpl)
-    character(*), intent(in) :: tmpl
-    character(:), allocatable :: glib_aux_make_temporary_directory
-
-    character(:), allocatable, target :: buffer
-    type(c_ptr) p
-
-    buffer = tmpl // char(0)
-
-    p = g_mkdtemp(c_loc(buffer))
-
-    glib_aux_make_temporary_directory = buffer(1 : len(tmpl))
-  end function glib_aux_make_temporary_directory
-
-  function glib_aux_read_directory_entry_name(directory)
-    type(c_ptr), value :: directory
-    character(:), allocatable :: glib_aux_read_directory_entry_name
-
-    type(c_ptr) cptr
-
-    cptr = g_dir_read_name(directory)
-
-    !! TODO: handle error properly
-    if (c_associated(cptr)) then
-       block
-         character(strlen(cptr)), pointer :: fptr
-         call c_f_pointer(cptr, fptr)
-         glib_aux_read_directory_entry_name = fptr
-       end block
-    else
-       glib_aux_read_directory_entry_name = ''
-    end if
-  end function glib_aux_read_directory_entry_name
 
 end module glib_aux
