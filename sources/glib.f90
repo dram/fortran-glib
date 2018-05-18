@@ -14,6 +14,28 @@ module glib
        integer(c_size_t) g_bytes_get_size
      end function g_bytes_get_size
 
+     subroutine g_checksum_free(checksum) bind(c)
+       use iso_c_binding, only: c_ptr
+       type(c_ptr), value :: checksum
+     end subroutine g_checksum_free
+
+     subroutine g_checksum_get_digest(checksum, buffer, digest_len) bind(c)
+       use iso_c_binding, only: c_ptr
+       type(c_ptr), value :: checksum, buffer, digest_len
+     end subroutine g_checksum_get_digest
+
+     function g_checksum_new(checksum_type) bind(c)
+       use iso_c_binding, only: c_int, c_ptr
+       integer(c_int), value :: checksum_type
+       type(c_ptr) g_checksum_new
+     end function g_checksum_new
+
+     subroutine g_checksum_update(checksum, data, length) bind(c)
+       use iso_c_binding, only: c_long, c_ptr
+       type(c_ptr), value :: checksum, data
+       integer(c_long), value :: length
+     end subroutine g_checksum_update
+
      subroutine g_dir_close(dir) bind(c)
        use iso_c_binding, only: c_ptr
        type(c_ptr), value :: dir

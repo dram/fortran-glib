@@ -6,6 +6,8 @@
 int main(void)
 {
 	printf(INT_PARAMETER
+	       "g_checksum_md5 = %d\n", G_CHECKSUM_MD5);
+	printf(INT_PARAMETER
 	       "g_file_test_exists = %d\n", G_FILE_TEST_EXISTS);
 	printf(INT_PARAMETER
 	       "g_file_test_is_regular = %d\n", G_FILE_TEST_IS_REGULAR);
