@@ -66,9 +66,9 @@ module glib
      end function g_file_get_contents
 
      function g_file_set_contents(filename, contents, length, error) bind(c)
-       use iso_c_binding, only: c_bool, c_ptr, c_size_t
+       use iso_c_binding, only: c_bool, c_long, c_ptr
        type(c_ptr), value :: filename, contents, error
-       integer(c_size_t), value :: length
+       integer(c_long), value :: length
        logical(c_bool) g_file_set_contents
      end function g_file_set_contents
 
