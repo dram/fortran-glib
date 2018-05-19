@@ -127,13 +127,5 @@ module glib
        integer(c_int), value :: flags
        logical(c_bool) g_spawn_sync
      end function g_spawn_sync
-
-     function pr_mk_dir(name, mode) &
-          bind(c, name="PR_MkDir")
-       use iso_c_binding, only: c_int, c_ptr
-       type(c_ptr), value :: name
-       integer(c_int), value :: mode
-       integer(c_int) pr_mk_dir
-     end function pr_mk_dir
   end interface
 end module glib
