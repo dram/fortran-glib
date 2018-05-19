@@ -8,6 +8,13 @@ module glib
   include "constants.f90"
 
   interface
+     function g_base64_encode(data, len) bind(c)
+       use iso_c_binding, only: c_ptr, c_long
+       type(c_ptr), value :: data
+       integer(c_long), value :: len
+       type(c_ptr) g_base64_encode
+     end function g_base64_encode
+
      function g_bytes_get_size(bytes) bind(c)
        use iso_c_binding, only: c_ptr, c_size_t
        type(c_ptr), value :: bytes
